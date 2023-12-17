@@ -45,19 +45,39 @@ async function mapLimit(arr, limit, asynFunction, result) {
 
     /**Max task which will  execute concurrently are-> limit */
     const batchedArray = batchIt(arr, limit);    
+   
     console.log("choppedValue", batchedArray);
-     const newOutput=[];
      
-     for(let i=0;i<batchedArray.length;i++){
-        const batch=batchedArray[i];
-            const bathcResult=await waitTillAllPromise(batch,asynFunction);
-            newOutput.push(...bathcResult);     
-          
-     }
+     //pre value will be Promise.resolve()--initailly
+     const newOutput=batchedArray.reduce((preBatch,currentBatch)=>{
 
-     result(newOutput)
+        return  preBatch.then((val)=>{
+           // console.log("preval",preBatch,val)    
+            return new Promise((res,reject)=>{
+
+               const temp=[];
+               currentBatch.forEach((batchValue)=>{                
+                   asynFn(batchValue,function result(resultVal){
+                       temp.push(resultVal); 
+                       if(temp.length==currentBatch.length){
+                        res([...val,...temp])
+                    };                       
+                   })
+               });
+                
+               //console.log("temp",temp.length,currentBatch.length)
+               
+   
+           })
+         
+        })
+     },Promise.resolve([]));
+
+
+     const resul1t=await Promise.all([newOutput]);
+     result(...resul1t);
  
-
+     
 };
 
 async function waitTillAllPromise(batch,asyncFn){
