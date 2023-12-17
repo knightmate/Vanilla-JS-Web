@@ -16,28 +16,20 @@ setTimeout(function(){
 Output-[2,4,6,8,10]
  */
 
-const chopee = (arr, limit) => {
+ 
+const batchIt = (input, limit) => {
 
-    if (limit > arr.length) return arr;
+    if (limit > input.length) return input;
 
-    const output = [];
-    let counter = 0;
-    let batch = [];
-    arr.forEach(element => {
+    const result=[];
+    let i=0;
+    
+    while(i<input.length){
+       result.push(input.slice(i,i+limit)); 
+       i=i+limit
+     }
 
-        batch.push(element);
-        counter++;
-        if (counter == limit) {
-            output.push(batch);
-            batch = [];
-            counter = 0;
-        };
-
-
-
-    });
-
-    return output
+    return result
 
 }
 
@@ -52,12 +44,12 @@ function asynFn(num, callback){
 async function mapLimit(arr, limit, asynFunction, result) {
 
     /**Max task which will  execute concurrently are-> limit */
-    const chopedArray = chopee(arr, limit);    
-    console.log("choppedValue", chopedArray);
+    const batchedArray = batchIt(arr, limit);    
+    console.log("choppedValue", batchedArray);
      const newOutput=[];
      
-     for(let i=0;i<chopedArray.length;i++){
-        const batch=chopedArray[i];
+     for(let i=0;i<batchedArray.length;i++){
+        const batch=batchedArray[i];
             const bathcResult=await waitTillAllPromise(batch,asynFunction);
             newOutput.push(...bathcResult);     
           
