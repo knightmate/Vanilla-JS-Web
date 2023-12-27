@@ -29,120 +29,60 @@ function asynFn(){
 
 
 function retry(apiCall,retriesCountMe,delay,finalMessage){
-
-  
-//     const recursiveTry=(promise,retryCount,delay,finalMessage)=>{
-
-//           if(retryCount==0){
-             
-//          return Promise.reject(finalMessage);
-//         }
-
-//     return new Promise((res,rej)=>{
-//         setTimeout(()=>{
-//             promise().then((val)=>{
-               
-//               //resolve
-//                 res(val);
-  
-//             }).catch((val)=>{
-//                recursiveTry(promise,retryCount-1,delay,finalMessage).then((val)=>{
-//                  res(val)
-//                }).catch((val)=>{
-//                console.log("Attemp"+retryCount+"--"+val)
-//                rej(val)
-//               });
    
-//             })
-//            },delay)
-   
-//     })
      
-  
-//  }
-const recursiveTry = (promise, retryCount, delay, finalMessage) => {
-   
-    if (retry === 0) {
-        return Promise.reject(finalMessage);
-    }
-    return new Promise((res,rej)=>{
-        setTimeout(()=>{
-            promise().then((val)=>{
-               
-              //resolve
-                res(val);
-  
-            }).catch((val)=>{
-                console.log("Attempt " + (retriesCountMe - retryCount + 1) + " -- " + val);
-               recursiveTry(promise,retryCount-1,delay,finalMessage).then((val)=>{
-                 res(val)
-               }).catch((val)=>{
-               console.log("Attemp"+retryCount+"--"+val)
-               rej(val)
-              });
-   
-            })
-           },delay)
+    return new Promise((res, rej)=>{
+        
+         if(retriesCountMe==0){
+            rej(finalMessage)
+         }
 
-        })}
- 
-    const asynCall=apiCall();
-      
-//    return new Promise((res,rej)=>{
+       apiCall().then((result)=>{
 
-//     asynCall().then((val)=>{
-       
-//         res(val);
+         res(result)
 
-//     }).catch((val)=>{
+       }).catch((fail)=>{
 
-//         console.log("Attempt 1"+retriesCountMe)
+          console.log("Failed-"+fail+retriesCountMe)
+        
+          setTimeout(()=>{
+             
+            retry(apiCall,retriesCountMe-1,delay,finalMessage).then(res,rej);
 
-//         recursiveTry(asynCall,retriesCountMe-1,delay,finalMessage).then((val)=>{
-//         console.log("Done");
-//         res(val);
-//        }).catch((val)=>{
-//          rej(val)
-//        })
-//     });
+           },delay);
 
+       })
 
-
-
-
-
-//    })
-return new Promise((res, rej) => {
-    asynCall().then(val => {
-        res(val);
-    }).catch(val => {
-        console.log("Attempt 1: " + val);
-        recursiveTry(asynCall, retriesCountMe - 1, delay, finalMessage).then(val => {
-            console.log("Done");
-            res(val);
-        }).catch(val => {
-            rej(val);
-        });
-    });
-});
-       
+    })
 
 };
 
  
 
  
-const retryFun=()=>{
+ const retryFun=async ()=>{
 
-    retry(asynFn,8, 50,'Failed').then((res)=>{
+    // retry(asynFn(),8, 50,'Failed').then((res)=>{
         
-        console.log("Success"+res);
+    //     console.log("Success"+res);
 
-    }).catch((val)=>{
+    // }).catch((val)=>{
        
-        console.log("Failed API after all retries-"+val);
+    //     console.log("Failed API after all retries-"+val);
 
-    });
+    // });
+
+    try {
+        const result=await retry(asynFn(),5, 50,'Failed');
+        console.log(result);
+    } catch (error) {
+        console.log(error);
+
+    }
+
+ 
+
+
     
 }
 

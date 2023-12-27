@@ -37,7 +37,6 @@ function runCode(){
             return  preBatch.then((val)=>{
                // console.log("preval",preBatch,val)    
                 return new Promise((res,reject)=>{
-    
                    const temp=[];
                    currentBatch.forEach((batchValue)=>{                
                        asynFn(batchValue,function result(resultVal){
