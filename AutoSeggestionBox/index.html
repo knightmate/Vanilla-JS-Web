@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Input Box</title>
+<style>
+
+    li{
+      pointer-events:stroke;
+    }
+     .search-box {
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .suggestion-box {
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #030303;
+        border-radius: 1px;
+        font-size: 16px;
+        outline: none;
+        height:150px;
+        margin-top: 1px;
+        
+     }
+
+
+    .search-box:focus {
+        border-color: #007bff;
+    }
+</style>
+</head>
+<body>
+
+<!-- Search Input Box -->
+<input type="text" value="" id="search" class="search-box" placeholder="Search...">
+<div>
+ <div  id="suggestion"  class="suggestion-box" >
+     
+ </div>
+</div>
+
+<script src="./index.js" type="module" async defer></script>
+
+</body>
+</html>
