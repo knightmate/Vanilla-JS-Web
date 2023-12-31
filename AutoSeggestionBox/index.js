@@ -60,13 +60,14 @@ const randomString = generateRandomText(8);
     }
 
 
-    const onBlur=()=>{
+    const onBlur=(e)=>{
+         
+        if(e.target==input || e.target==suggestionUIref)return;
+
         suggestionUIref.style.display="none"
     }
 
-    input.addEventListener('focus',onFocus)
-    input.addEventListener('blur',onBlur)
-    input.addEventListener('input',hanldeOnChange)
+   
      
 
      
@@ -103,6 +104,7 @@ const randomString = generateRandomText(8);
     if( suggestion && !suggestion.length)return ;
 
     const li=document.createElement('li');
+
      suggestion.forEach(suggestion => {
         const element=document.createElement("li");
          element.style.cursor="pointer";
@@ -111,12 +113,7 @@ const randomString = generateRandomText(8);
          li.appendChild(element);
 
         });
-        li.addEventListener('click',(event)=>{
-            
-            debugger
-            //setSerachBoxVal(event.target.innerHTML);
-
-         })
+ 
       suggestionUIref.appendChild(li)
      console.log("suggestion","Created");
 
@@ -127,7 +124,7 @@ const randomString = generateRandomText(8);
    }
 
    function setSerachBoxVal(val){
-    debugger
+     
     input.value=val;
      onBlur()
 
@@ -135,6 +132,15 @@ const randomString = generateRandomText(8);
 }
 
  
+input.addEventListener('focus',onFocus)
+window.addEventListener('click',onBlur)
 
+ input.addEventListener('input',hanldeOnChange)
+suggestionUIref.addEventListener('click',(event)=>{
+     
+    setSerachBoxVal(event.target.innerHTML);
+ 
+})
+ 
 
    })()
