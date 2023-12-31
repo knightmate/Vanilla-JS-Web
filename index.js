@@ -3,8 +3,9 @@ import AsyncTaskRunCode from "./js/AsyncTask/AsyncTask.js"
 import retryFun from "./js/RetryFunction/index.js" 
 import CacheAPICall from "./js/CacheAPI/index.js";
 import MethodChainingCal from "./js/MethodChaining-Calculator/index.js";
-import GetObjectFromString from "./Get_Obj_From_String/index.js";
+import GetObjectFromString from "./js/Get_Obj_From_String/index.js";
+import DeepFlatten from "./js/DeepFlatten-Object-Filter/index.js";
 //runCode();
 
  //console.log("Running js file!",runCode)
- GetObjectFromString();
+ DeepFlatten();
