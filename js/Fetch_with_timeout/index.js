@@ -2,7 +2,6 @@
 
 const fetchWithTimeOut=(url,time)=>{
 
-     
     return new Promise((response,rej)=>{
         let timerId;
         const controller=new AbortController();
@@ -20,10 +19,7 @@ const fetchWithTimeOut=(url,time)=>{
         })
 
           timerId=setTimeout(()=>{
-
-             
             controller.abort();
-
         },time)
 
     });
@@ -36,11 +32,14 @@ function runfetchWithTimeOut(){
 
 const url="https://my-json-server.typicode.com/typicode/demo/posts";
 
-fetchWithTimeOut(url,1000).then((response)=>{
+fetchWithTimeOut(url,300).then((response)=>{
 
-     console.log("response",response);
+   console.log("response",response);
 
 
+}).catch((error)=>{
+
+    console.log("ERROR",error)
 })
 
 }
