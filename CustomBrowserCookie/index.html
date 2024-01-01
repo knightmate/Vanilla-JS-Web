@@ -1,0 +1,71 @@
+<html>
+
+
+<script>
+
+    const customCookie = function(){
+         
+        const map=new Map();
+       const  myVal={value:"",maxTime:Infinity}
+        
+        Object.defineProperty(document, 'myCookie', {
+            
+             set:(val)=>{
+             const cookie=val.split(';');
+              
+             const valData=cookie[0];
+             const max_age=cookie[1]?.split("=")[1]||Infinity;
+
+               myVal.maxTime= Date.now()+(max_age*1000);
+               myVal.value=valData;
+
+
+            },
+            get:()=>{
+
+            console.log("getter value", myVal)
+             //check if the value is expired
+             const isExpired=Date.now()>myVal.maxTime;
+             if(isExpired){
+
+                return null;
+
+             } 
+             return myVal.value;
+
+            },
+        });
+
+
+
+
+
+    }
+    customCookie()
+    document.myCookie = "isThisValid:true;max-age=3";
+    document.myCookie = "name:Meghraj;";
+
+ 
+    console.log("cookies", document.cookie);
+
+    setTimeout(() => {
+
+        console.log("cookies", document.myCookie);
+
+    }, 2000);
+    setTimeout(() => {
+
+console.log("cookies should expored-null", document.myCookie);
+
+}, 4000);
+
+</script>
+
+<body>
+
+
+
+
+</body>
+
+</html>
