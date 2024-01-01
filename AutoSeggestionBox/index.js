@@ -44,14 +44,47 @@ const randomString = generateRandomText(8);
   * if a siggestion is clikced , pipulate the input with its valud and brind box in foccus
   */
 
- function deBounce(onChange,time){
+
+ /**Implement leading and trailing options
+  * Leading will invoke it in first call itself
+  * Trailing will invoke after the delay
+  */
+ function deBounce(onChange,time,options={leading:false,trailing:true}){
     
     let timerId;
+    const {leading,trailing}=options;
+    let isLeadingInvoked=false;
 
-    return (e)=>{
+    return function(...args){
+
+      
+        if(timerId){
         clearTimeout(timerId)
+        }
+
+        if(leading && !timerId){
+        onChange(args)
+        isLeadingInvoked=true
+        if(!trailing)
+        return;
+        }else{
+            isLeadingInvoked=false
+
+        };
+      
+         
         timerId= setTimeout(()=>{
-           onChange(e)
+
+              if(!isLeadingInvoked){
+                onChange(args)
+                 
+                console.log("After delay Invoking___---",args);
+
+            }else{
+                isLeadingInvoked=true;
+                console.log("Already Invoked Not Invoking..");
+
+            }
   
        },time);
     }
@@ -61,7 +94,6 @@ const randomString = generateRandomText(8);
  
    (function(){
 
-   
     const input=document.getElementById("search");
     const suggestionUIref=document.getElementById("suggestion");
  
@@ -82,10 +114,10 @@ const randomString = generateRandomText(8);
 
      
     
-   const  hanldeOnChange=deBounce(onChange,200);
+   const  hanldeOnChange=deBounce(onChange,200,{leading:true,trailing:true});
 
     function onChange(e){
-        const text=e.target.value
+        const text=e[0].target.value
          console.log("onType",text);
         getSugestionsByTextAndSave(text)
     }
@@ -104,6 +136,7 @@ const randomString = generateRandomText(8);
 
     } catch (error) {
         console.log("getSuggestedResult","ERROR",error);
+        getSugestionsByTextAndSave(text)
     }
      
    }
@@ -134,21 +167,13 @@ const randomString = generateRandomText(8);
    }
 
    function setSerachBoxVal(val){
-     
     input.value=val;
-     onBlur()
-
-
 }
-
  
-input.addEventListener('focus',onFocus)
+ input.addEventListener('focus',onFocus)
 window.addEventListener('click',onBlur)
-
  input.addEventListener('input',hanldeOnChange)
-suggestionUIref.addEventListener('click',(event)=>{
-   
-  setSerachBoxVal(event.target.innerHTML);
+ suggestionUIref.addEventListener('click',(event)=>setSerachBoxVal(event.target.innerHTML))
 
-})
+
  })()
