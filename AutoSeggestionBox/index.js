@@ -44,17 +44,27 @@ const randomString = generateRandomText(8);
   * if a siggestion is clikced , pipulate the input with its valud and brind box in foccus
   */
 
+ function deBounce(onChange,time){
+    
+    let timerId;
+
+    return (e)=>{
+        clearTimeout(timerId)
+        timerId= setTimeout(()=>{
+           onChange(e)
+  
+       },time);
+    }
+
+ }
+
  
    (function(){
 
    
-
-    console.log("Hii,5pm")
-
     const input=document.getElementById("search");
     const suggestionUIref=document.getElementById("suggestion");
-     const suggestionList=[];
-
+ 
     const onFocus=()=>{
         suggestionUIref.style.display="block"
     }
@@ -72,11 +82,13 @@ const randomString = generateRandomText(8);
 
      
     
-   function hanldeOnChange(event){
-    const val=event.target.value;
-    console.log("onType",val);
-    getSugestionsByTextAndSave(val)
-    };
+   const  hanldeOnChange=deBounce(onChange,200);
+
+    function onChange(e){
+        const text=e.target.value
+         console.log("onType",text);
+        getSugestionsByTextAndSave(text)
+    }
 
    async function getSugestionsByTextAndSave(text){
 
@@ -88,11 +100,9 @@ const randomString = generateRandomText(8);
 
      const getSuggestedResult=await getRandomSuggestions(text);
      adddToSuggestionBox(getSuggestedResult)
-     console.log("getSuggestedResult",getSuggestedResult);
-
+ 
 
     } catch (error) {
-        
         console.log("getSuggestedResult","ERROR",error);
     }
      
@@ -103,19 +113,19 @@ const randomString = generateRandomText(8);
      
     if( suggestion && !suggestion.length)return ;
 
-    const li=document.createElement('li');
-
+    const li=document.createElement('ui');
      suggestion.forEach(suggestion => {
+        if(!suggestion || !suggestion.length)return;
+
         const element=document.createElement("li");
          element.style.cursor="pointer";
          element.value=suggestion
          element.innerHTML=suggestion
          li.appendChild(element);
-
         });
  
       suggestionUIref.appendChild(li)
-     console.log("suggestion","Created");
+     console.log("suggestion","Created",li);
 
    }
    function clearSuggestionBoxUI(){
@@ -137,10 +147,8 @@ window.addEventListener('click',onBlur)
 
  input.addEventListener('input',hanldeOnChange)
 suggestionUIref.addEventListener('click',(event)=>{
-     
-    setSerachBoxVal(event.target.innerHTML);
- 
-})
- 
+   
+  setSerachBoxVal(event.target.innerHTML);
 
-   })()
+})
+ })()
