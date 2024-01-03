@@ -68,8 +68,7 @@ const randomString = generateRandomText(8);
         if(!trailing)
         return;
         }else{
-            isLeadingInvoked=false
-
+           isLeadingInvoked=false
         };
       
          

@@ -6,37 +6,72 @@
     const customCookie = function(){
          
         const map=new Map();
-       const  myVal={value:"",maxTime:Infinity}
+       const  cookieStore=new Map();
+       const cookieKey="cookieKey"
+       const  expiryKey="max-age";
+
         
         Object.defineProperty(document, 'myCookie', {
             
              set:(val)=>{
-             const cookie=val.split(';');
-              
-             const valData=cookie[0];
-             const max_age=cookie[1]?.split("=")[1]||Infinity;
 
-               myVal.maxTime= Date.now()+(max_age*1000);
-               myVal.value=valData;
+             const {key,value,options}= parseVal(val);
+              let expiry=Infinity;
+               if(options[expiryKey]){
+                expiry=Date.now()+options[expiryKey]*1000;
+              }
+              options[expiryKey]=expiry
+              cookieStore.set(key,{value,options});
 
 
             },
             get:()=>{
 
-            console.log("getter value", myVal)
-             //check if the value is expired
-             const isExpired=Date.now()>myVal.maxTime;
-             if(isExpired){
+              const result=[];
+              const keys=cookieStore.keys();
+ 
+               for(key of keys){
 
-                return null;
+                const cookie=cookieStore.get(key)  
+                if(cookie){
+               const  {value,options}=cookie;
+               if(options[expiryKey]>Date.now()){
+                result.push(`${key}=${value}`)
+               }
 
-             } 
-             return myVal.value;
+                 }
+               }
+ 
+            
+ 
+              return result.join(";");
 
             },
         });
 
 
+        const parseVal=(cookieData)=>{
+
+          // "isThisValid:true;max-age=3"
+
+          const [key_val,...options]=cookieData.split(';')
+
+          const [key,value]=key_val.split(":");
+
+          let options_={};
+
+             
+           for(option of options){
+            const [key,val]=option.split("=")
+            options_[key]=val;
+ 
+           }
+
+ 
+        
+          return {value,key,options:options_}
+
+        }
 
 
 
@@ -46,16 +81,15 @@
     document.myCookie = "name:Meghraj;";
 
  
-    console.log("cookies", document.cookie);
-
+ 
     setTimeout(() => {
 
-        console.log("cookies", document.myCookie);
+        console.log( document.myCookie);
 
     }, 2000);
     setTimeout(() => {
 
-console.log("cookies should expored-null", document.myCookie);
+console.log( document.myCookie);
 
 }, 4000);
 

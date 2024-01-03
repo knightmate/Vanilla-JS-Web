@@ -58,7 +58,6 @@ function computerAmount(){
         crores:function(val){
           this.totalVal+=Math.pow(10,7)*val
           return result;
-
         },
         val:function(val){
           return this.totalVal
