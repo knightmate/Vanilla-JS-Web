@@ -17,31 +17,31 @@ children:[
 
 
 let count_=4;
-function RenderView(root,domObj){
- 
-     const type=domObj?.type;
-    const props=domObj?.props;
-    const children=domObj?.children;
-      
-    const element= document.createElement(type);
-    element.id=props?.id;
-    if(typeof(children)=="string"){
-     element.innerHTML=children;      
-    }else{
-        if(Array.isArray(children)){
-          for(child of children){
-            RenderView(element,child)
-          }
-        }else{
-         RenderView(element,children)
+function renderView(root, domObj) {
+    const type = domObj?.type;
+    const props = domObj?.props;
+    const children = domObj?.children;
+
+    const element = document.createElement(type);
+     
+    if(props){
+        for(property in props){
+        element[property] = property;
         }
-     }
+    }
+
+    if (typeof children === "string") {
+        element.innerHTML = children;
+    } else{
+        for (const child of children) {
+            renderView(element, child);
+        }
+    }
+      
 
     root.appendChild(element);
-   return ;
- 
-
 }
 
 
-RenderView(root,dom);
+
+renderView(root,dom);
