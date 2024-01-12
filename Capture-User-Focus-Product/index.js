@@ -41,16 +41,21 @@
    /**This wil capture the product in viewport */
    const captureProduct=()=>{
      
+    const result=[];
     const prod=allProductsElements.children
        for(element of prod){
          if(isInViewport(element)){
 
-            console.log("INPORT",element);
-            
+            result.push(element.textContent)
+             
          }else{
 
          }
         }
+
+
+     console.log("Result->",result);
+
   
    }
 

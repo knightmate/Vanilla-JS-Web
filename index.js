@@ -10,3 +10,22 @@ import runfetchWithTimeOut from "./js/Fetch_with_timeout/index.js";
 
  //console.log("Running js file!",runCode)
  runfetchWithTimeOut();
+
+
+ // Online Javascript Editor for free
+// Write, Edit and Run your Javascript code using JS Online Compiler
+
+console.log("Welcome to Programiz!");
+
+
+ 
+ 
+const obj={a:"meghraj"};
+
+function fn(){
+  
+  console.log("fdfd",this);
+  
+    
+}
+fn()
