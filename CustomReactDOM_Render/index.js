@@ -45,3 +45,6 @@ function renderView(root, domObj) {
 
 
 renderView(root,dom);
+
+
+/**document.createDocumentFragement() */
