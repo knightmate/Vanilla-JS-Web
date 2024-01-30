@@ -6,10 +6,11 @@ import MethodChainingCal from "./js/MethodChaining-Calculator/index.js";
 import GetObjectFromString from "./js/Get_Obj_From_String/index.js";
 import DeepFlatten from "./js/DeepFlatten-Object-Filter/index.js";
 import runfetchWithTimeOut from "./js/Fetch_with_timeout/index.js";
+import runAlgorithm from "./js/AlogrithmFriendsOfFriends/index.js";
 //runCode();
 
  //console.log("Running js file!",runCode)
- runfetchWithTimeOut();
+ runAlgorithm()
 
 
  // Online Javascript Editor for free
@@ -17,15 +18,4 @@ import runfetchWithTimeOut from "./js/Fetch_with_timeout/index.js";
 
 console.log("Welcome to Programiz!");
 
-
  
- 
-const obj={a:"meghraj"};
-
-function fn(){
-  
-  console.log("fdfd",this);
-  
-    
-}
-fn()
