@@ -21,14 +21,28 @@ const runAlgorithm=()=>{
     };
      
       
+     const finalFriends=[];
+     function getFriends(friends,person){
      
-     function getFriends(friends){
- 
-     
+        const friendlist=friends[person];
+    
+        //edge case
+        if(!friendlist || !friendlist.length)return;
+          
+        const personFriends=friendlist//?.split(",");
+        finalFriends.push(...personFriends);
+         
+        for(const friend of personFriends){
+            getFriends(friends,friend);
 
-     }
+         }
 
-     const friends=getFriends(mapping)
+         return finalFriends
+
+      }
+
+     const friends=getFriends(mapping,"a")
+
 
       console.log("All Friends",friends);
 
